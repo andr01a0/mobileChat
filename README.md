@@ -5,7 +5,7 @@ Mobile chat with login
 
 - React Native
 - Typescript
-- Redux
+- React Redux
 - Redux Thunk
 - React Query
-- Firebase
+- Firebase (Authentication + Firestore)
