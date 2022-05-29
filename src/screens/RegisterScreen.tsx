@@ -3,10 +3,11 @@ import { StyleSheet, TextInput, Text, Button, View } from 'react-native';
 import { auth } from '../configs/firebase'
 import { createUserWithEmailAndPassword as createUser } from "firebase/auth";
 
-function createUEP(email: string, password: string) {
+function createUEP(email: string, password: string, navigation: any) {
   createUser(auth, email, password).then((userCredential) => {
     const user = userCredential.user;
     console.log(user);
+		navigation.navigate('Home');
   });
 };
 
@@ -33,7 +34,7 @@ export default function RegisterScreen ({ navigation }: any) {
 			/>
 			<Button
 				onPress={() => {
-					createUEP(email, password);
+					createUEP(email, password, navigation);
 				}}
 				title="Create User"
 			/>
