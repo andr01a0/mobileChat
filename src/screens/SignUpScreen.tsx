@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
-import { Input } from 'react-native-elements';
+import { Input, Overlay } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../configs/firebase";
 import { validateEmail, isButtonDisabled } from "../utils/auth";
 
 export default function SignUpScreen({ navigation }: any) {
@@ -10,10 +12,26 @@ export default function SignUpScreen({ navigation }: any) {
 	const [rPassword, setRPassword] = useState('');
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
+	const [overlayVisible, setOverlayVisible] = useState(false);
+	const [overlayMessage, setOverlayMessage] = useState('');
+
+	const toggleOverlay = () => {
+    setOverlayVisible(!overlayVisible);
+  };
 
 	const _signUpAsync = async () => {
-    await SecureStore.setItemAsync('userToken', 'abc');
-    navigation.navigate('App');
+
+		createUserWithEmailAndPassword(auth, email, password)
+		.then(async (userCredential) => {
+			// Signed in 
+			const user = userCredential.user;
+			await SecureStore.setItemAsync('userToken', 'abc');
+			navigation.navigate('App');
+		})
+		.catch((error) => {
+			setOverlayMessage(error.message);
+			toggleOverlay();
+		});
   };
 	
 	return (
@@ -83,6 +101,9 @@ export default function SignUpScreen({ navigation }: any) {
 					<Button title="Log In" onPress={() => navigation.navigate('SignIn')} />
 				</View>
 			</View>
+			<Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
+        <Text style={styles.overlayMessage}>{overlayMessage}</Text>
+      </Overlay>
     </View>
 	);
 }
@@ -138,5 +159,12 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginHorizontal: 20,
 		marginVertical: 20,
-	}
+	},
+	overlayMessage: {
+		fontSize: 16,
+		lineHeight: 21,
+		fontWeight: 'bold',
+		letterSpacing: 0.25,
+		color: 'red',
+	},
 });

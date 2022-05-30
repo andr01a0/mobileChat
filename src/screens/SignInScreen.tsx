@@ -1,15 +1,36 @@
 import React, { useState } from "react";
 import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
-import { Input } from 'react-native-elements';
+import { Input, Overlay } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../configs/firebase";
 
 export default function SignInScreen({ navigation }: any) {
 	const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+	const [overlayVisible, setOverlayVisible] = useState(false);
+	const [overlayMessage, setOverlayMessage] = useState('');
+
+	const toggleOverlay = () => {
+    setOverlayVisible(!overlayVisible);
+  };
 
 	const _signInAsync = async () => {
-    await SecureStore.setItemAsync('userToken', 'abc');
-    navigation.navigate('App');
+
+		signInWithEmailAndPassword(auth, email, password)
+		.then(async (userCredential) => {
+			// Signed in 
+			const user = userCredential.user;
+			console.log(user);
+			
+			await SecureStore.setItemAsync('userToken', 'abc');
+			navigation.navigate('App');
+			// ...
+		})
+		.catch((error) => {
+			setOverlayMessage(error.message);
+			toggleOverlay();
+		});
   };
 	
 	return (
@@ -48,6 +69,9 @@ export default function SignInScreen({ navigation }: any) {
 					<Button title="Sign Up" onPress={() => navigation.navigate('SignUp')} />
 				</View>
 			</View>
+			<Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
+        <Text style={styles.overlayMessage}>{overlayMessage}</Text>
+      </Overlay>
     </View>
 	);
 }
@@ -100,5 +124,12 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginHorizontal: 20,
 		marginVertical: 20,
+	},
+	overlayMessage: {
+		fontSize: 16,
+		lineHeight: 21,
+		fontWeight: 'bold',
+		letterSpacing: 0.25,
+		color: 'red',
 	},
 });
