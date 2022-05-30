@@ -30,6 +30,8 @@ export default function SignUp({ navigation }: any) {
 				secureTextEntry={true}
 			/>
       <Button title="Sign Up" onPress={_signUpAsync} />
+			<Text>Already have a user?</Text>
+			<Button title="Sign In" onPress={() => navigation.navigate('SignIn')} />
     </View>
 	);
 }
