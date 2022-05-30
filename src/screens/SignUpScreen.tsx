@@ -6,7 +6,7 @@ export default function SignUp({ navigation }: any) {
 	const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-	const _signInAsync = async () => {
+	const _signUpAsync = async () => {
     await SecureStore.setItemAsync('userToken', 'abc');
     navigation.navigate('App');
   };
@@ -29,7 +29,7 @@ export default function SignUp({ navigation }: any) {
 				defaultValue={password}
 				secureTextEntry={true}
 			/>
-      <Button title="Create User" onPress={_signInAsync} />
+      <Button title="Sign Up" onPress={_signUpAsync} />
     </View>
 	);
 }
