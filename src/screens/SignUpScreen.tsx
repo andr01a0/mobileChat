@@ -72,9 +72,9 @@ export default function SignUpScreen({ navigation }: any) {
 							errorMessage={passwordError} />
 					</View>
 					<Pressable 
-					style={[styles.submitButton, isButtonDisabled(emailError, email, passwordError, password)?styles.submitButtonDisabled:null]} 
+					style={[styles.submitButton, isButtonDisabled(emailError, email, passwordError, password, rPassword)?styles.submitButtonDisabled:null]} 
 					onPress={_signUpAsync}
-					disabled={isButtonDisabled(emailError, email, passwordError, password)} >
+					disabled={isButtonDisabled(emailError, email, passwordError, password, rPassword)} >
 						<Text style={styles.submitButtonText}>Get access</Text>
 					</Pressable>
 				</View>
