@@ -6,11 +6,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import AuthLoadingScreen from './src/screens/AuthLoadingScreen';
+import AuthScreen from './src/screens/AuthScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import HomeScreen from './src/screens/HomeScreen';
 
 const AppStack = createStackNavigator({ Home: HomeScreen });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ Authentication: AuthScreen, SignUp: SignUpScreen, SignIn: SignInScreen });
 
 const queryClient = new QueryClient();
 
