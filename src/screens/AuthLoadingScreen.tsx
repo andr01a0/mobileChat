@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, StatusBar, View } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../configs/firebase";
 
 export default function HomeScreen({ navigation }: any) {
 
   const _bootstrapAsync = async () => {
-    const userToken = await SecureStore.getItemAsync('userToken');
-
-    navigation.navigate(userToken ? 'App' : 'Auth');
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.navigate('App');
+      } else {
+        navigation.navigate('Auth');
+      }
+    });
   };
 
 	useEffect(() => {
