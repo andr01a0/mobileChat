@@ -5,6 +5,7 @@ import { store } from './src/redux/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthLoadingScreen from './src/screens/AuthLoadingScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -42,10 +43,12 @@ const AppContainer = createAppContainer(
 export default function App() {
   
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <AppContainer />
-      </QueryClientProvider>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <AppContainer />
+        </QueryClientProvider>
+      </Provider>
+    </SafeAreaProvider>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Pressable, Image, StyleSheet } from "react-native";
+import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
+import { Input } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 
 export default function SignInScreen({ navigation }: any) {
@@ -20,21 +21,23 @@ export default function SignInScreen({ navigation }: any) {
 			<View>
 				<View>
 					<View style={styles.inputContainer}>
-						<TextInput
-							style={styles.input}
-							placeholder="Email"
+					<Input
+							placeholder="email@address.com"
+							label="Email"
 							onChangeText={newEmail => setEmail(newEmail)}
 							defaultValue={email}
 							keyboardType="email-address"
 							autoCapitalize='none'
-						/>
-						<TextInput
-							style={styles.input}
+							leftIcon={{ type: 'font-awesome', name: 'envelope', color: '#00000026' }}
+							autoCompleteType={undefined} />
+						<Input
 							placeholder="Password"
+							label="Password"
+							leftIcon={{ type: 'font-awesome', name: 'lock', color: '#00000026' }}
 							onChangeText={newPassword => setPassword(newPassword)}
 							defaultValue={password}
 							secureTextEntry={true}
-						/>
+							autoCompleteType={undefined} />
 					</View>
 					<Pressable style={styles.submitButton} onPress={_signInAsync}>
 						<Text style={styles.submitButtonText}>Log In</Text>
@@ -97,13 +100,5 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginHorizontal: 20,
 		marginVertical: 20,
-		shadowColor: '#00000026',
-		shadowOffset: {width: 0, height: 3},
-		shadowOpacity: 5,
-	},
-	input: {
-		borderWidth: 1,
-		borderColor: '#EEEEEE',
-		height: 40,
 	},
 });

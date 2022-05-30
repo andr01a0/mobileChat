@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Pressable, Image, StyleSheet } from "react-native";
+import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
+import { Input } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
+import { validateEmail, isButtonDisabled } from "../utils/auth";
 
 export default function SignUpScreen({ navigation }: any) {
 	const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 	const [rPassword, setRPassword] = useState('');
+	const [emailError, setEmailError] = useState('');
+	const [passwordError, setPasswordError] = useState('');
 
 	const _signUpAsync = async () => {
     await SecureStore.setItemAsync('userToken', 'abc');
@@ -21,30 +25,56 @@ export default function SignUpScreen({ navigation }: any) {
 			<View>
 				<View>
 					<View style={styles.inputContainer}>
-						<TextInput 
-							style={styles.input}
-							placeholder="Email"
-							onChangeText={newEmail => setEmail(newEmail)}
+						<Input
+							placeholder="email@address.com"
+							label="Email"
+							onChangeText={(newEmail) : void => {
+								setEmail(newEmail);
+								setEmailError("");
+								if (!validateEmail(newEmail)) {
+									setEmailError("Invalid email address");
+								}
+							}}
 							defaultValue={email}
 							keyboardType="email-address"
 							autoCapitalize='none'
-						/>
-						<TextInput
-							style={styles.input}
+							leftIcon={{ type: 'font-awesome', name: 'envelope', color: '#00000026' }}
+							autoCompleteType={'email'}
+							renderErrorMessage={true}
+							errorStyle={{ color: 'red' }}
+							errorMessage={emailError} />
+						<Input
 							placeholder="Password"
+							label="Password"
+							leftIcon={{ type: 'font-awesome', name: 'lock', color: '#00000026' }}
 							onChangeText={newPassword => setPassword(newPassword)}
 							defaultValue={password}
 							secureTextEntry={true}
-						/>
-						<TextInput
-							style={styles.input}
+							autoCompleteType={'password'} />
+						<Input
 							placeholder="Repeat Password"
-							onChangeText={newPassword => setRPassword(newPassword)}
+							label="Repeat Password"
+							leftIcon={{ type: 'font-awesome', name: 'lock', color: '#00000026' }}
+							onChangeText={
+								newRPassword => {
+									setRPassword(newRPassword);
+									setPasswordError("");
+									if (newRPassword !== password) {
+										setPasswordError("Passwords do not match");
+									}
+								}
+							}
 							defaultValue={rPassword}
 							secureTextEntry={true}
-						/>
+							autoCompleteType={'password'}
+							renderErrorMessage={true}
+							errorStyle={{ color: 'red' }}
+							errorMessage={passwordError} />
 					</View>
-					<Pressable style={styles.submitButton} onPress={_signUpAsync}>
+					<Pressable 
+					style={[styles.submitButton, isButtonDisabled(emailError, email, passwordError, password)?styles.submitButtonDisabled:null]} 
+					onPress={_signUpAsync}
+					disabled={isButtonDisabled(emailError, email, passwordError, password)} >
 						<Text style={styles.submitButtonText}>Get access</Text>
 					</Pressable>
 				</View>
@@ -95,6 +125,9 @@ const styles = StyleSheet.create({
 		shadowOffset: {width: 0, height: 3},
 		shadowOpacity: 5,
   },
+	submitButtonDisabled: {
+		backgroundColor: '#BABADD',
+	},
   submitButtonText: {
     fontSize: 16,
     lineHeight: 21,
@@ -105,13 +138,5 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginHorizontal: 20,
 		marginVertical: 20,
-		shadowColor: '#00000026',
-		shadowOffset: {width: 0, height: 3},
-		shadowOpacity: 5,
-	},
-	input: {
-		borderWidth: 1,
-		borderColor: '#EEEEEE',
-		height: 40,
-	},
+	}
 });
