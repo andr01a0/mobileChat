@@ -1,5 +1,5 @@
 # Mobile Chat
-Mobile chat with login
+Chat app with authentication
 ## KEA - React Native Elective
 ### Final Semester Exam Project
 
