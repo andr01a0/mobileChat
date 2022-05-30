@@ -25,6 +25,7 @@ export const userSlice = createSlice({
     },
     removeUser: (state) => {
       state.displayName = '';
+      state.email = '';
     },
   },
 });
