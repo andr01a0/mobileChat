@@ -11,7 +11,20 @@ import SignInScreen from './src/screens/SignInScreen';
 import HomeScreen from './src/screens/HomeScreen';
 
 const AppStack = createStackNavigator({ Home: HomeScreen });
-const AuthStack = createStackNavigator({ SignUp: SignUpScreen, SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ 
+  SignUp: {
+    screen: SignUpScreen,
+    navigationOptions: () => ({
+      headerShown: false
+    }),
+  }, 
+  SignIn: {
+    screen: SignInScreen,
+    navigationOptions: () => ({
+      headerShown: false
+    }),
+  }, 
+});
 
 const queryClient = new QueryClient();
 

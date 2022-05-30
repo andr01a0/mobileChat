@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, Pressable, Image, StyleSheet } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 
-export default function SignIn({ navigation }: any) {
+export default function SignInScreen({ navigation }: any) {
 	const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,39 +12,77 @@ export default function SignIn({ navigation }: any) {
   };
 	
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Sign In Screen</Text>
-			<TextInput
-				style={styles.textInput}
-				placeholder="Insert email"
-				onChangeText={newEmail => setEmail(newEmail)}
-				defaultValue={email}
-				keyboardType="email-address"
-				autoCapitalize='none'
-			/>
-			<TextInput
-				style={styles.textInput}
-				placeholder="Insert password"
-				onChangeText={newPassword => setPassword(newPassword)}
-				defaultValue={password}
-				secureTextEntry={true}
-			/>
-      <Button title="Sign In" onPress={_signInAsync} />
+		<View style={styles.mainContainer}>
+			<View style={styles.topContainer}>
+				<Image style={styles.logo} source = {require("../../assets/logo.png")}/>
+				<Text style={styles.text}>Log In</Text>
+			</View>
+			<View>
+				<View>
+					<TextInput
+						placeholder="Insert email"
+						onChangeText={newEmail => setEmail(newEmail)}
+						defaultValue={email}
+						keyboardType="email-address"
+						autoCapitalize='none'
+					/>
+					<TextInput
+						placeholder="Insert password"
+						onChangeText={newPassword => setPassword(newPassword)}
+						defaultValue={password}
+						secureTextEntry={true}
+					/>
+					<Pressable style={styles.submitButton} onPress={_signInAsync}>
+						<Text style={styles.submitButtonText}>Log In</Text>
+					</Pressable>
+				</View>
+				<View style={styles.bottomContainer}>
+					<Text>Don't have an account?</Text>
+					<Button title="Sign Up" onPress={() => navigation.navigate('SignUp')} />
+				</View>
+			</View>
     </View>
 	);
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
   },
-  text: {
-    fontSize: 40,
-  },
-	textInput: {
-		height: 50,
+	topContainer: {
+		marginTop: 80,
 	},
+	bottomContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	text: {
+		fontSize: 20,
+		fontWeight: 'bold',
+		marginTop: 40,
+		marginLeft: 20,
+	},
+	logo: {
+		alignSelf: 'center',
+	},
+	submitButton: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#5050A5',
+  },
+  submitButtonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
 });
