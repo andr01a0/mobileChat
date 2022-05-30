@@ -21,18 +21,17 @@ export default function SignInScreen({ navigation }: any) {
 		.then(async (userCredential) => {
 			// Signed in 
 			const user = userCredential.user;
-			console.log(user);
+			const idToken = await user.getIdToken().then(token => token);
 			
-			await SecureStore.setItemAsync('userToken', 'abc');
+			await SecureStore.setItemAsync('userToken', idToken);
 			navigation.navigate('App');
-			// ...
 		})
 		.catch((error) => {
 			setOverlayMessage(error.message);
 			toggleOverlay();
 		});
   };
-	
+
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.topContainer}>

@@ -25,7 +25,9 @@ export default function SignUpScreen({ navigation }: any) {
 		.then(async (userCredential) => {
 			// Signed in 
 			const user = userCredential.user;
-			await SecureStore.setItemAsync('userToken', 'abc');
+			const idToken = await user.getIdToken().then(token => token);
+			
+			await SecureStore.setItemAsync('userToken', idToken);
 			navigation.navigate('App');
 		})
 		.catch((error) => {
