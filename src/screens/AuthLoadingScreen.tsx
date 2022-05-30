@@ -5,7 +5,6 @@ import * as SecureStore from 'expo-secure-store';
 export default function HomeScreen({ navigation }: any) {
 
   const _bootstrapAsync = async () => {
-    await SecureStore.deleteItemAsync('userToken');
     const userToken = await SecureStore.getItemAsync('userToken');
 
     navigation.navigate(userToken ? 'App' : 'Auth');
