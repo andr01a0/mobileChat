@@ -3,6 +3,8 @@ import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
 import { Input, Overlay } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAppDispatch } from '../redux/hooks';
+import { addUser } from '../redux/features/user/userSlice'
 import { auth } from "../configs/firebase";
 
 export default function SignInScreen({ navigation }: any) {
@@ -15,6 +17,8 @@ export default function SignInScreen({ navigation }: any) {
     setOverlayVisible(!overlayVisible);
   };
 
+	const dispatch = useAppDispatch();
+
 	const _signInAsync = async () => {
 
 		signInWithEmailAndPassword(auth, email, password)
@@ -22,6 +26,11 @@ export default function SignInScreen({ navigation }: any) {
 			// Signed in 
 			const user = userCredential.user;
 			const idToken = await user.getIdToken().then(token => token);
+			
+			dispatch(addUser({
+				displayName: user.displayName,
+				email: user.email,
+			}));
 			
 			await SecureStore.setItemAsync('userToken', idToken);
 			navigation.navigate('App');

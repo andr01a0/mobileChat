@@ -19,11 +19,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    addUser: (state, action: PayloadAction<{ displayName: string, email: string }>) => {
-      state.displayName = action.payload.displayName;
+    addUser: (state, action: PayloadAction<{ displayName?: string|null, email?: string|null }>) => {
+      state.displayName = action.payload.displayName||'';
+      state.email = action.payload.email||'';
     },
-    updateUser: (state, action: PayloadAction<{ displayName: string, email?: string }>) => {
-      state.displayName = action.payload.displayName;
+    updateUser: (state, action: PayloadAction<{ displayName?: string|null, email?: string }>) => {
+      state.displayName = action.payload.displayName||'';
+      state.email = action.payload.email||'';
     },
     removeUser: (state) => {
       state.displayName = '';
@@ -32,8 +34,5 @@ export const userSlice = createSlice({
 });
 
 export const { addUser, updateUser, removeUser } = userSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.user.displayName;
 
 export default userSlice.reducer;
