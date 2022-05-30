@@ -13,7 +13,7 @@ export default function SignIn({ navigation }: any) {
 	
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Sign Up Screen</Text>
+			<Text style={styles.text}>Sign In Screen</Text>
 			<TextInput
 				style={styles.textInput}
 				placeholder="Insert email"
