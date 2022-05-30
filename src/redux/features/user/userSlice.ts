@@ -23,16 +23,12 @@ export const userSlice = createSlice({
       state.displayName = action.payload.displayName||'';
       state.email = action.payload.email||'';
     },
-    updateUser: (state, action: PayloadAction<{ displayName?: string|null, email?: string }>) => {
-      state.displayName = action.payload.displayName||'';
-      state.email = action.payload.email||'';
-    },
     removeUser: (state) => {
       state.displayName = '';
     },
   },
 });
 
-export const { addUser, updateUser, removeUser } = userSlice.actions;
+export const { addUser, removeUser } = userSlice.actions;
 
 export default userSlice.reducer;
