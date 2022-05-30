@@ -5,6 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 export default function SignUpScreen({ navigation }: any) {
 	const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+	const [rPassword, setRPassword] = useState('');
 
 	const _signUpAsync = async () => {
     await SecureStore.setItemAsync('userToken', 'abc');
@@ -19,19 +20,30 @@ export default function SignUpScreen({ navigation }: any) {
 			</View>
 			<View>
 				<View>
-					<TextInput
-						placeholder="Insert email"
-						onChangeText={newEmail => setEmail(newEmail)}
-						defaultValue={email}
-						keyboardType="email-address"
-						autoCapitalize='none'
-					/>
-					<TextInput
-						placeholder="Insert password"
-						onChangeText={newPassword => setPassword(newPassword)}
-						defaultValue={password}
-						secureTextEntry={true}
-					/>
+					<View style={styles.inputContainer}>
+						<TextInput 
+							style={styles.input}
+							placeholder="Email"
+							onChangeText={newEmail => setEmail(newEmail)}
+							defaultValue={email}
+							keyboardType="email-address"
+							autoCapitalize='none'
+						/>
+						<TextInput
+							style={styles.input}
+							placeholder="Password"
+							onChangeText={newPassword => setPassword(newPassword)}
+							defaultValue={password}
+							secureTextEntry={true}
+						/>
+						<TextInput
+							style={styles.input}
+							placeholder="Repeat Password"
+							onChangeText={newPassword => setRPassword(newPassword)}
+							defaultValue={rPassword}
+							secureTextEntry={true}
+						/>
+					</View>
 					<Pressable style={styles.submitButton} onPress={_signUpAsync}>
 						<Text style={styles.submitButtonText}>Get access</Text>
 					</Pressable>
@@ -59,6 +71,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+		marginTop: 30,
 	},
 	text: {
 		fontSize: 20,
@@ -77,6 +90,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#5050A5',
+		marginHorizontal: 20,
+		shadowColor: '#00000026',
+		shadowOffset: {width: 0, height: 3},
+		shadowOpacity: 5,
   },
   submitButtonText: {
     fontSize: 16,
@@ -85,4 +102,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
+	inputContainer: {
+		marginHorizontal: 20,
+		marginVertical: 20,
+		shadowColor: '#00000026',
+		shadowOffset: {width: 0, height: 3},
+		shadowOpacity: 5,
+	},
+	input: {
+		borderWidth: 1,
+		borderColor: '#EEEEEE',
+		height: 40,
+	},
 });

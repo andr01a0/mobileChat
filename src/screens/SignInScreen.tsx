@@ -19,19 +19,23 @@ export default function SignInScreen({ navigation }: any) {
 			</View>
 			<View>
 				<View>
-					<TextInput
-						placeholder="Insert email"
-						onChangeText={newEmail => setEmail(newEmail)}
-						defaultValue={email}
-						keyboardType="email-address"
-						autoCapitalize='none'
-					/>
-					<TextInput
-						placeholder="Insert password"
-						onChangeText={newPassword => setPassword(newPassword)}
-						defaultValue={password}
-						secureTextEntry={true}
-					/>
+					<View style={styles.inputContainer}>
+						<TextInput
+							style={styles.input}
+							placeholder="Email"
+							onChangeText={newEmail => setEmail(newEmail)}
+							defaultValue={email}
+							keyboardType="email-address"
+							autoCapitalize='none'
+						/>
+						<TextInput
+							style={styles.input}
+							placeholder="Password"
+							onChangeText={newPassword => setPassword(newPassword)}
+							defaultValue={password}
+							secureTextEntry={true}
+						/>
+					</View>
 					<Pressable style={styles.submitButton} onPress={_signInAsync}>
 						<Text style={styles.submitButtonText}>Log In</Text>
 					</Pressable>
@@ -59,6 +63,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
+		marginTop: 30,
 	},
 	text: {
 		fontSize: 20,
@@ -77,6 +82,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#5050A5',
+		marginHorizontal: 20,
+		shadowColor: '#00000026',
+		shadowOffset: {width: 0, height: 3},
+		shadowOpacity: 5,
   },
   submitButtonText: {
     fontSize: 16,
@@ -85,4 +94,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
+	inputContainer: {
+		marginHorizontal: 20,
+		marginVertical: 20,
+		shadowColor: '#00000026',
+		shadowOffset: {width: 0, height: 3},
+		shadowOpacity: 5,
+	},
+	input: {
+		borderWidth: 1,
+		borderColor: '#EEEEEE',
+		height: 40,
+	},
 });
