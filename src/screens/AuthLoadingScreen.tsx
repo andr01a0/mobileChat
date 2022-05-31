@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }: any) {
         dispatch(addUser({
           displayName: user.displayName,
           email: user.email,
+          photoURL: user.photoURL,
         }));
         
         await SecureStore.setItemAsync('userToken', idToken);

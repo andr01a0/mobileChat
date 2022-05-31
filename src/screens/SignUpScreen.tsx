@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { View, Text, Button, Pressable, Image, StyleSheet } from "react-native";
 import { Input, Overlay } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../configs/firebase";
 import { useAppDispatch } from '../redux/hooks';
 import { addUser } from '../redux/features/user/userSlice'
 import { validateEmail, isButtonDisabled } from "../utils/auth";
+import { faker } from '@faker-js/faker';
 
 export default function SignUpScreen({ navigation }: any) {
 	const [email, setEmail] = useState('');
@@ -29,15 +30,26 @@ export default function SignUpScreen({ navigation }: any) {
 		.then(async (userCredential) => {
 			// Signed in 
 			const user = userCredential.user;
-			const idToken = await user.getIdToken().then(token => token);
+			updateProfile(user, {
+				displayName: faker.name.findName(), 
+				photoURL: faker.image.avatar(),
+			}).then(async () => {
+				// Profile updated!
+				const idToken = await user.getIdToken().then(token => token);
 
-			dispatch(addUser({
-				displayName: user.displayName,
-				email: user.email,
-			}));
-			
-			await SecureStore.setItemAsync('userToken', idToken);
-			navigation.navigate('App');
+				dispatch(addUser({
+					displayName: user.displayName,
+					email: user.email,
+					photoURL: user.photoURL,
+				}));
+				
+				await SecureStore.setItemAsync('userToken', idToken);
+				navigation.navigate('App');
+			}).catch((error) => {
+				// An error occurred
+				setOverlayMessage(error.message);
+				toggleOverlay();
+			});
 		})
 		.catch((error) => {
 			setOverlayMessage(error.message);
@@ -48,7 +60,7 @@ export default function SignUpScreen({ navigation }: any) {
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.topContainer}>
-				<Image style={styles.logo} source = {require("../../assets/logo.png")}/>
+				<Image style={styles.logo} source={require("../../assets/logo.png")}/>
 				<Text style={styles.text}>Sign up to get access</Text>
 			</View>
 			<View>

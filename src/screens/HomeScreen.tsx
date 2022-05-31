@@ -2,8 +2,8 @@ import React, { useState, useEffect }  from "react";
 import * as SecureStore from 'expo-secure-store';
 import { signOut } from "firebase/auth";
 import { auth } from "../configs/firebase";
-import { View, Text, Button, StyleSheet } from "react-native";
-import { Overlay } from 'react-native-elements';
+import { View, Text, Button, Image, StyleSheet } from "react-native";
+import { Overlay, Avatar } from 'react-native-elements';
 import { useAppSelector } from '../redux/hooks';
 
 export default function HomeScreen({ navigation }: any) {
@@ -33,7 +33,13 @@ export default function HomeScreen({ navigation }: any) {
 			<View>
 				<Button title="Log Out" onPress={_signOutAsync} />
 			</View>
-			<Text>{useAppSelector(state => state.user.email)}</Text>
+			<Avatar rounded
+				source={{
+					uri: useAppSelector(state => state.user.photoURL),
+				}}
+			/>
+			<Text>Display Name: {useAppSelector(state => state.user.displayName)}</Text>
+			<Text>Email: {useAppSelector(state => state.user.email)}</Text>
 			<Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
         <Text style={styles.overlayMessage}>{overlayMessage}</Text>
       </Overlay>

@@ -30,6 +30,7 @@ export default function SignInScreen({ navigation }: any) {
 			dispatch(addUser({
 				displayName: user.displayName,
 				email: user.email,
+				photoURL: user.photoURL,
 			}));
 			
 			await SecureStore.setItemAsync('userToken', idToken);
@@ -44,7 +45,7 @@ export default function SignInScreen({ navigation }: any) {
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.topContainer}>
-				<Image style={styles.logo} source = {require("../../assets/logo.png")}/>
+				<Image style={styles.logo} source={require("../../assets/logo.png")}/>
 				<Text style={styles.text}>Log In</Text>
 			</View>
 			<View>
