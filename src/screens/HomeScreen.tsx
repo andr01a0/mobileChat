@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }: any) {
 			<View>
 				<Button title="Log Out" onPress={_signOutAsync} />
 			</View>
-			<Avatar rounded
+			<Avatar rounded size="xlarge"
 				source={{
 					uri: useAppSelector(state => state.user.photoURL),
 				}}
