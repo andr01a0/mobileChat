@@ -34,8 +34,10 @@ export default function HomeScreen({ navigation }: any) {
 					uri: useAppSelector(state => state.user.photoURL),
 				}}
 			/>
-			<Text>Display Name: {useAppSelector(state => state.user.displayName)}</Text>
-			<Text>Email: {useAppSelector(state => state.user.email)}</Text>
+			<View>
+				<Text>Display Name: {useAppSelector(state => state.user.displayName)}</Text>
+				<Text>Email: {useAppSelector(state => state.user.email)}</Text>
+			</View>
 			<View>
 				<Button title="Log Out" onPress={_signOutAsync} />
 			</View>
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
 	container: { 
 		flex: 1, 
 		alignItems: 'center', 
-		justifyContent: 'center' 
+		justifyContent: 'space-around', 
 	},
 	overlayMessage: {
 		fontSize: 16,
