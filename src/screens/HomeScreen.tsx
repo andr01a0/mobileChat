@@ -37,6 +37,7 @@ export default function HomeScreen({ navigation }: any) {
 			<View>
 				<Text>Display Name: {useAppSelector(state => state.user.displayName)}</Text>
 				<Text>Email: {useAppSelector(state => state.user.email)}</Text>
+				<Button title="Friends" onPress={() => {navigation.navigate('Friends')}} />
 			</View>
 			<View>
 				<Button title="Log Out" onPress={_signOutAsync} />

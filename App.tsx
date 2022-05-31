@@ -10,15 +10,20 @@ import AuthLoadingScreen from './src/screens/AuthLoadingScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import FriendsScreen from './src/screens/FriendsScreen';
 
-const AppStack = createStackNavigator({ 
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: () => ({
-      headerShown: false
-    }),
+const AppStack = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: () => ({
+        headerShown: false
+      }),
+    },
+    Friends: FriendsScreen,
   },
-});
+);
+
 const AuthStack = createStackNavigator({ 
   SignUp: {
     screen: SignUpScreen,
