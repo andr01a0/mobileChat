@@ -28,11 +28,7 @@ export default function HomeScreen({ navigation }: any) {
   };
 	
 	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-			<View>
-				<Button title="Log Out" onPress={_signOutAsync} />
-			</View>
+		<View style={styles.container}>
 			<Avatar rounded size="xlarge"
 				source={{
 					uri: useAppSelector(state => state.user.photoURL),
@@ -40,6 +36,9 @@ export default function HomeScreen({ navigation }: any) {
 			/>
 			<Text>Display Name: {useAppSelector(state => state.user.displayName)}</Text>
 			<Text>Email: {useAppSelector(state => state.user.email)}</Text>
+			<View>
+				<Button title="Log Out" onPress={_signOutAsync} />
+			</View>
 			<Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
         <Text style={styles.overlayMessage}>{overlayMessage}</Text>
       </Overlay>
@@ -48,6 +47,11 @@ export default function HomeScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+	container: { 
+		flex: 1, 
+		alignItems: 'center', 
+		justifyContent: 'center' 
+	},
 	overlayMessage: {
 		fontSize: 16,
 		lineHeight: 21,
